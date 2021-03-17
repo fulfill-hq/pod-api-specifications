@@ -1,0 +1,924 @@
+openapi: 3.0.0
+info:
+  title: CRM API
+  version: '1.0'
+  description: Fulfill CRM API
+  contact:
+    name: Huy TQ
+    email: h@hiweb.com
+servers:
+  - description: Mock server
+    url: 'http://localhost:3100'
+paths:
+  /signin:
+    post:
+      summary: ''
+      operationId: crm.signin
+      responses:
+        '200':
+          $ref: '#/components/responses/AccessToken'
+      requestBody:
+        $ref: '#/components/requestBodies/Signin'
+  /agencies:
+    get:
+      summary: List Agencies
+      tags:
+        - agencies
+      operationId: agencies.list
+      description: Retrieves list of agencies resource.
+      parameters:
+        - $ref: '#/components/parameters/maxResultsParam'
+        - $ref: '#/components/parameters/pageTokenParam'
+      responses:
+        '200':
+          $ref: '#/components/responses/AgencyList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        'default':
+          $ref: '#/components/responses/Error'
+      security:
+        - bearerAuth: []
+    post:
+      summary: Create Agency
+      tags:
+        - agencies
+      operationId: agencies.create
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Agency'
+      responses:
+        '200':
+          $ref: '#/components/responses/Agency'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        'default':
+          $ref: '#/components/responses/Error'
+      security:
+        - bearerAuth: []
+  '/agencies/{agencyId}':
+    parameters:
+      - in: path
+        name: agencyId
+        schema:
+          type: string
+        required: true
+    get:
+      summary: Get Agency
+      tags:
+        - agencies
+      operationId: agencies.get
+      description: Returns the specified Agency resource.
+      responses:
+        '200':
+          $ref: '#/components/responses/Agency'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        'default':
+          $ref: '#/components/responses/Error'
+      security:
+        - bearerAuth: []
+    put:
+      summary: Update Agency
+      tags:
+        - agencies
+      operationId: agencies.update
+      description: Updates the specified agency with the data included in the request. Note that all fields will be updated if using PUT, even fields that are not specified. To update individual fields, please use PATCH instead.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Agency'
+      responses:
+        '200':
+          $ref: '#/components/responses/Agency'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        'default':
+          $ref: '#/components/responses/Error'
+      security:
+        - bearerAuth: []
+    delete:
+      summary: Delete Agency
+      tags:
+        - agencies
+      operationId: agencies.delete
+      description: Deletes the specified Agency resource.
+      responses:
+        '200':
+          $ref: '#/components/responses/Operation'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        'default':
+          $ref: '#/components/responses/Error'
+      security:
+        - bearerAuth: []
+  /products:
+    get:
+      summary: List Products
+      tags:
+        - products
+      operationId: products.list
+      description: Retrieves list of products resource.
+      parameters:
+        - $ref: '#/components/parameters/maxResultsParam'
+        - $ref: '#/components/parameters/pageTokenParam'
+      responses:
+        '200':
+          $ref: '#/components/responses/ProductList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        'default':
+          $ref: '#/components/responses/Error'
+      security:
+        - bearerAuth: []
+    post:
+      summary: Create Product
+      tags:
+        - products
+      operationId: products.create
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          $ref: '#/components/responses/Product'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        'default':
+          $ref: '#/components/responses/Error'
+      security:
+        - bearerAuth: []
+  '/products/{productId}':
+    parameters:
+      - in: path
+        name: productId
+        schema:
+          type: string
+        required: true
+    get:
+      summary: Get Product
+      tags:
+        - products
+      operationId: products.get
+      description: Returns the specified Product resource.
+      responses:
+        '200':
+          $ref: '#/components/responses/Product'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        'default':
+          $ref: '#/components/responses/Error'
+      security:
+        - bearerAuth: []
+    put:
+      summary: Update Product
+      tags:
+        - products
+      operationId: products.update
+      description: Updates the specified product with the data included in the request. Note that all fields will be updated if using PUT, even fields that are not specified. To update individual fields, please use PATCH instead.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          $ref: '#/components/responses/Product'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        'default':
+          $ref: '#/components/responses/Error'
+      security:
+        - bearerAuth: []
+    delete:
+      summary: Delete Product
+      tags:
+        - products
+      operationId: products.delete
+      description: Deletes the specified Product resource.
+      responses:
+        '200':
+          $ref: '#/components/responses/Operation'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        'default':
+          $ref: '#/components/responses/Error'
+      security:
+        - bearerAuth: []
+  '/products/{productId}/variants':
+    parameters:
+      - in: path
+        name: productId
+        schema:
+          type: string
+        required: true
+    get:
+      summary: List Product Variants
+      tags:
+        - products
+      operationId: products.variants.list
+      description: Retrieves list of product variants resource.
+      parameters:
+        - $ref: '#/components/parameters/maxResultsParam'
+        - $ref: '#/components/parameters/pageTokenParam'
+      responses:
+        '200':
+          $ref: '#/components/responses/ProductVariantList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        'default':
+          $ref: '#/components/responses/Error'
+      security:
+        - bearerAuth: []
+    post:
+      summary: Create Product Variant
+      tags:
+        - products
+      operationId: products.variants.create
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductVariant'
+      responses:
+        '200':
+          $ref: '#/components/responses/ProductVariant'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        'default':
+          $ref: '#/components/responses/Error'
+      security:
+        - bearerAuth: []
+  '/products/{productId}/variants/{variantId}':
+    parameters:
+      - in: path
+        name: productId
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: variantId
+        schema:
+          type: string
+        required: true
+    get:
+      summary: Get Product Variant
+      tags:
+        - products
+      operationId: products.variants.get
+      description: Returns the specified product variant resource.
+      responses:
+        '200':
+          $ref: '#/components/responses/ProductVariant'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        'default':
+          $ref: '#/components/responses/Error'
+      security:
+        - bearerAuth: []
+    put:
+      summary: Update Product Variant
+      tags:
+        - products
+      operationId: products.variants.update
+      description: Updates the specified product variant with the data included in the request. Note that all fields will be updated if using PUT, even fields that are not specified. To update individual fields, please use PATCH instead.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductVariant'
+      responses:
+        '200':
+          $ref: '#/components/responses/ProductVariant'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        'default':
+          $ref: '#/components/responses/Error'
+      security:
+        - bearerAuth: []
+    delete:
+      summary: Delete Product Variant
+      tags:
+        - products
+      operationId: products.variants.delete
+      description: Deletes the specified product Variant resource.
+      responses:
+        '200':
+          $ref: '#/components/responses/Operation'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        'default':
+          $ref: '#/components/responses/Error'
+      security:
+        - bearerAuth: []
+  /operations:
+    get:
+      summary: List Operations
+      tags:
+        - operations
+      operationId: operations.list
+      description: Retrieves list of operations resource.
+      parameters:
+        - $ref: '#/components/parameters/maxResultsParam'
+        - $ref: '#/components/parameters/pageTokenParam'
+      responses:
+        '200':
+          $ref: '#/components/responses/OperationList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        'default':
+          $ref: '#/components/responses/Error'
+      security:
+        - bearerAuth: []
+  '/operations/{operationId}':
+    parameters:
+      - in: path
+        name: operationId
+        schema:
+          type: string
+        required: true
+    get:
+      summary: Get Operation
+      tags:
+        - operations
+      operationId: operations.get
+      description: Returns the specified Operation resource.
+      responses:
+        '200':
+          $ref: '#/components/responses/Operation'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        'default':
+          $ref: '#/components/responses/Error'
+      security:
+        - bearerAuth: []
+components:
+  schemas:
+    Error:
+      description: Unexpected error
+      type: object
+      properties:
+        error:
+          type: string
+    Operation:
+      description: Represents an Operation resource.
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          description: The unique identifier for the operation. This identifier is defined by the server.
+          example: 01F0QQZTBZJ97D7K9H2ZEZBYC0
+        kind:
+          type: string
+          readOnly: true
+          enum:
+            - operation
+          description: Type of the resource. Always **operation** for Operation resources.
+        clientOperationId:
+          type: string
+          format: uuid
+          readOnly: true
+          description: The value of requestId if you provided it in the request. Not present otherwise.
+        operationType:
+          type: string
+          readOnly: true
+          description: The type of operation, such as insert, update, or delete, and so on.
+          example: delete
+        status:
+          type: string
+          readOnly: true
+          enum:
+            - PENDING
+            - RUNNING
+            - DONE
+          description: |
+            The status of the operation, which can be one of the following: **PENDING**, **RUNNING**, or **DONE**.
+        statusMessage:
+          type: string
+          readOnly: true
+          description: An optional textual description of the current status of the operation.
+          example: pending
+        insertTime:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The time that this operation was requested. This value is in RFC3339 text format.
+        startTime:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The time that this operation was started by the server. This value is in RFC3339 text format.
+        endTime:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The time that this operation was completed. This value is in RFC3339 text format.
+        error:
+          type: object
+          nullable: true
+          example: null
+          properties:
+            errors:
+              type: array
+              readOnly: true
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    readOnly: true
+                    description: The error type identifier for this error.
+                  location:
+                    type: string
+                    readOnly: true
+                    description: Indicates the field in the request that caused the error. This property is optional.
+                  message:
+                    type: string
+                    readOnly: true
+                    description: An optional, human-readable error message.
+        httpErrorStatusCode:
+          type: integer
+          readOnly: true
+          description: If the operation fails, this field contains the HTTP error status code that was returned. For example, a 404 means the resource was not found.
+          example: 404
+        httpErrorMessage:
+          type: integer
+          readOnly: true
+          description: If the operation fails, this field contains the HTTP error message that was returned, such as NOT FOUND.
+          example: NOT FOUND
+    OperationList:
+      description: Contains a list of Operation resources.
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          description: The unique identifier for the operation. This identifier is defined by the server.
+          example: operations
+        kind:
+          type: string
+          readOnly: true
+          enum:
+            - operationList
+          description: Type of the resource. Always **operationList** for OperationList resources.
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Operation'
+    Order:
+      description: Represents an Order resource.
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          description: The unique identifier for the order. This identifier is defined by the server.
+          example: 01F0QQZTBZJ97D7K9H2ZEZBYC0
+        kind:
+          type: string
+          readOnly: true
+          enum:
+            - order
+          description: Type of the resource. Always **order** for Order resources.
+        clientOrderId:
+          type: string
+          format: uuid
+          readOnly: true
+          description: The value of requestId if you provided it in the request. Not present otherwise.
+        orderType:
+          type: string
+          readOnly: true
+          description: The type of order, such as insert, update, or delete, and so on.
+          example: delete
+        status:
+          type: string
+          readOnly: true
+          enum:
+            - PENDING
+            - RUNNING
+            - DONE
+          description: |
+            The status of the order, which can be one of the following: **PENDING**, **RUNNING**, or **DONE**.
+        statusMessage:
+          type: string
+          readOnly: true
+          description: An optional textual description of the current status of the order.
+          example: pending
+        insertTime:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The time that this order was requested. This value is in RFC3339 text format.
+        startTime:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The time that this order was started by the server. This value is in RFC3339 text format.
+        endTime:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The time that this order was completed. This value is in RFC3339 text format.
+        error:
+          type: object
+          nullable: true
+          example: null
+          properties:
+            errors:
+              type: array
+              readOnly: true
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    readOnly: true
+                    description: The error type identifier for this error.
+                  location:
+                    type: string
+                    readOnly: true
+                    description: Indicates the field in the request that caused the error. This property is optional.
+                  message:
+                    type: string
+                    readOnly: true
+                    description: An optional, human-readable error message.
+        httpErrorStatusCode:
+          type: integer
+          readOnly: true
+          description: If the order fails, this field contains the HTTP error status code that was returned. For example, a 404 means the resource was not found.
+          example: 404
+        httpErrorMessage:
+          type: integer
+          readOnly: true
+          description: If the order fails, this field contains the HTTP error message that was returned, such as NOT FOUND.
+          example: NOT FOUND
+    OrderList:
+      description: Contains a list of Order resources.
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          description: The unique identifier for the order. This identifier is defined by the server.
+          example: 01F0QQZTBZJ97D7K9H2ZEZBYC0
+        kind:
+          type: string
+          readOnly: true
+          enum:
+            - orderList
+          description: Type of the resource. Always **orderList** for OrderList resources.
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Order'
+    Agency:
+      description: Represents a Agency resource.
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+          description: The unique identifier for the agency. This identifier is defined by the server.
+        kind:
+          type: string
+          readOnly: true
+          enum:
+            - agency
+          description: Type of the resource. Always **agency** for Agency resources.
+        name:
+          type: string
+          description: The name of agency.
+          example: Fulfill Agency
+        email:
+          type: string
+          format: email
+          description: The email of agency.
+        password:
+          type: string
+          writeOnly: true
+          format: password
+          description: The password of agency.
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The time that this agency was created. This value is in RFC3339 text format.
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The time that this agency was last modified. This value is in RFC3339 text format.
+    AgencyList:
+      description: Contains a list of Agency resources.
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          description: The unique identifier for the resource. This identifier is defined by the server.
+          example: agencys
+        kind:
+          type: string
+          readOnly: true
+          enum:
+            - agencyList
+          description: Type of the resource. Always **agencyList** for AgencyList resources.
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Agency'
+    Product:
+      description: Represents a Product resource.
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+          description: The unique identifier for the product. This identifier is defined by the server.
+        kind:
+          type: string
+          readOnly: true
+          enum:
+            - product
+          description: Type of the resource. Always **product** for Product resources.
+        title:
+          type: string
+          description: The name of product.
+          example: T-Shirt
+        description:
+          type: string
+          description: The description of product.
+          example: T-Shirt
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The time that this product was created. This value is in RFC3339 text format.
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The time that this product was last modified. This value is in RFC3339 text format.
+    ProductList:
+      description: Contains a list of Product resources.
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          description: The unique identifier for the resource. This identifier is defined by the server.
+          example: products
+        kind:
+          type: string
+          readOnly: true
+          enum:
+            - productList
+          description: Type of the resource. Always **productList** for ProductList resources.
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    ProductVariant:
+      description: Represents a Product Variant resource.
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+          description: The unique identifier for the product. This identifier is defined by the server.
+        kind:
+          type: string
+          readOnly: true
+          enum:
+            - productVariant
+          description: Type of the resource. Always **productVariant** for Product variant resources.
+        title:
+          type: string
+          description: The name of product.
+          example: T-Shirt
+        inventoryItemId:
+          type: string
+          description: The unique identifier for the inventory item, which is used in the Inventory API to query for inventory information.
+          example: tshirt-red-xl
+        price:
+          type: number
+          description: The price of the product variant.
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The time that this product was created. This value is in RFC3339 text format.
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The time that this product was last modified. This value is in RFC3339 text format.
+    ProductVariantList:
+      description: Contains a list of Product Variant resources.
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          description: The unique identifier for the resource. This identifier is defined by the server.
+          example: productVariants
+        kind:
+          type: string
+          readOnly: true
+          enum:
+            - productVariantList
+          description: Type of the resource. Always **productVariantList** for ProductVariantList resources.
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductVariant'
+    Batch:
+      description: ''
+      type: object
+      properties:
+        id:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+        - id
+        - createdAt
+        - updatedAt
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  requestBodies:
+    Signin:
+      description: |
+        Seller credentials
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+              password:
+                type: string
+  responses:
+    Error:
+      description: Error response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFoundError:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnauthorizedError:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    AccessToken:
+      description: A token that can be used to make authenticated API calls.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              access_token:
+                type: string
+                format: token
+                example: c3FIOG9vSGV4VHo4QzAyg5T1JvNnJoZ3ExaVNyQWw6WjRsanRKZG5lQk9qUE1BVQ
+                description: The requested access token.
+              expires_in:
+                type: integer
+                format: int64
+                example: 3600
+                description: The time in seconds in seconds by which this token will expire.
+              token_type:
+                type: string
+                enum:
+                  - bearer
+                example: bearer
+                description: The type of access token returned.
+              refresh_token:
+                type: string
+                format: token
+                example: c3FIOG9vSGV4VHo4QzAyg5T1JvNnJoZ3ExaVNyQWw6WjRsanRKZG5lQk9qUE1BVQ
+                description: |-
+                  The refresh token for this access token, which can be used
+                  to request a new access token when the current one expires.
+    Agency:
+      description: Represents an Agency resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Agency'
+    AgencyList:
+      description: Contains a list of Agency resources.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AgencyList'
+    Order:
+      description: Represents an Order resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Order'
+    OrderList:
+      description: Contains a list of Order resources.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OrderList'
+    Product:
+      description: Represents an Product resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Product'
+    ProductList:
+      description: Contains a list of Product resources.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProductList'
+    ProductVariant:
+      description: Represents an Product Variant resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProductVariant'
+    ProductVariantList:
+      description: Contains a list of Product Variant resources.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProductVariantList'
+    Operation:
+      description: Represents an Operation resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Operation'
+    OperationList:
+      description: Contains a list of Operation resources.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OperationList'
+  parameters:
+    maxResultsParam:
+      in: query
+      name: maxResults
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 50
+        default: 20
+      description: |
+        The maxResults parameter specifies the maximum number of items that should be returned in the result set.
+    pageTokenParam:
+      in: query
+      name: pageToken
+      required: false
+      schema:
+        type: string
+        format: token
+        example: c3FIOG9vSGV4VHo4QzAyg5T1JvNnJoZ3ExaVNyQWw6WjRsanRKZG5lQk9qUE1BVQ
+      description: |
+        The pageToken parameter identifies a specific page in the result set that should be returned. In an API response, the nextPageToken property identifies the next page of the result that can be retrieved.
