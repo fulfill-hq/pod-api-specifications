@@ -333,6 +333,111 @@ paths:
           $ref: '#/components/responses/Error'
       security:
         - bearerAuth: []
+  /files:
+    get:
+      summary: List Files
+      tags:
+        - files
+      operationId: files.list
+      description: Retrieves list of files resource.
+      parameters:
+        - $ref: '#/components/parameters/maxResultsParam'
+        - $ref: '#/components/parameters/pageTokenParam'
+      responses:
+        '200':
+          $ref: '#/components/responses/FileList'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        'default':
+          $ref: '#/components/responses/Error'
+      security:
+        - bearerAuth: []
+    post:
+      summary: Create File
+      tags:
+        - files
+      operationId: files.create
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          $ref: '#/components/responses/File'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        'default':
+          $ref: '#/components/responses/Error'
+      security:
+        - bearerAuth: []
+  '/files/{fileId}':
+    parameters:
+      - in: path
+        name: fileId
+        schema:
+          type: string
+        required: true
+    get:
+      summary: Get File
+      tags:
+        - files
+      operationId: files.get
+      description: Returns the specified File resource.
+      responses:
+        '200':
+          $ref: '#/components/responses/File'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        'default':
+          $ref: '#/components/responses/Error'
+      security:
+        - bearerAuth: []
+    put:
+      summary: Update File
+      tags:
+        - files
+      operationId: files.update
+      description: Updates the specified file with the data included in the request. Note that all fields will be updated if using PUT, even fields that are not specified. To update individual fields, please use PATCH instead.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/File'
+      responses:
+        '200':
+          $ref: '#/components/responses/File'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        'default':
+          $ref: '#/components/responses/Error'
+      security:
+        - bearerAuth: []
+    delete:
+      summary: Delete File
+      tags:
+        - files
+      operationId: files.delete
+      description: Deletes the specified File resource.
+      responses:
+        '200':
+          $ref: '#/components/responses/Operation'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        'default':
+          $ref: '#/components/responses/Error'
+      security:
+        - bearerAuth: []
   /operations:
     get:
       summary: List Operations
@@ -724,13 +829,29 @@ components:
           type: string
           description: The name of product.
           example: T-Shirt
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
         inventoryItemId:
           type: string
           description: The unique identifier for the inventory item, which is used in the Inventory API to query for inventory information.
           example: tshirt-red-xl
-        price:
+        cost:
           type: number
           description: The price of the product variant.
+        length:
+          type: number
+          description: The length of the product variant.
+        width:
+          type: number
+          description: The width of the product variant.
+        height:
+          type: number
+          description: The height of the product variant.
+        weight:
+          type: number
+          description: The height of the product variant.
         createdAt:
           type: string
           format: date-time
@@ -760,6 +881,66 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ProductVariant'
+    File:
+      description: Represents a File resource.
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          # readOnly: true
+          description: The unique identifier for the file. This identifier is defined by the server.
+        kind:
+          type: string
+          readOnly: true
+          enum:
+            - file
+          description: Type of the resource. Always **file** for File resources.
+        filename:
+          type: string
+          description: The name of file.
+          example: image.jpg
+        size:
+          type: number
+          description: The size of the file.
+          example: 123456
+        mimeType:
+          type: string
+          description: The mime type of the file.
+          example: image/jpeg
+        url:
+          type: string
+          description: The mime type of the file.
+          example: https://via.placeholder.com/300/09f/fff.png
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The time that this file was created. This value is in RFC3339 text format.
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The time that this file was last modified. This value is in RFC3339 text format.
+    FileList:
+      description: Contains a list of File resources.
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          description: The unique identifier for the resource. This identifier is defined by the server.
+          example: files
+        kind:
+          type: string
+          readOnly: true
+          enum:
+            - fileList
+          description: Type of the resource. Always **fileList** for FileList resources.
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
     Batch:
       description: ''
       type: object
@@ -888,6 +1069,18 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ProductVariantList'
+    File:
+      description: Represents an File resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/File'
+    FileList:
+      description: Contains a list of File resources.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FileList'
     Operation:
       description: Represents an Operation resource.
       content:
