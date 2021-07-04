@@ -1,0 +1,474 @@
+openapi: 3.0.0
+info:
+  title: Seller.v1
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /artworks:
+    post:
+      summary: Upload artwork
+      operationId: artworks.insert
+      responses:
+        '200':
+          $ref: '#/components/responses/Artwork'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      description: Uploads an artwork resource using the data included in the request.
+      tags:
+        - artworks
+  /products:
+    get:
+      summary: List products
+      tags: []
+      responses:
+        '200':
+          $ref: '#/components/responses/ProductList'
+      operationId: products.list
+      description: Retrieves the list of products.
+    post:
+      summary: Create product
+      operationId: products.insert
+      responses:
+        '200':
+          $ref: '#/components/responses/Product'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      description: Creates a product resource using the data included in the request.
+  '/products/{product}':
+    parameters:
+      - schema:
+          type: string
+        name: product
+        in: path
+        required: true
+        description: Name of the product resource.
+    get:
+      summary: Get product
+      tags: []
+      responses:
+        '200':
+          $ref: '#/components/responses/Product'
+      operationId: products.get
+      description: Returns the specified product resource.
+    put:
+      summary: Update product
+      operationId: products.update
+      responses:
+        '200':
+          $ref: '#/components/responses/Product'
+      description: Updates a product only if the necessary resources are available. This method can update only a specific set of product properties
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+    delete:
+      summary: Delete product
+      operationId: products.delete
+      description: Deletes the specified product resource.
+      responses:
+        '204':
+          description: No Content
+      x-internal: false
+  /files:
+    post:
+      summary: Upload file
+      operationId: files.insert
+      responses:
+        '200':
+          $ref: '#/components/responses/File'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                purpose:
+                  type: string
+      description: Uploads an artwork resource using the data included in the request.
+      tags:
+        - files
+  /orders/import:
+    post:
+      summary: ''
+      operationId: orders.import
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fileId:
+                  type: string
+  /orders:
+    get:
+      summary: List orders
+      tags: []
+      responses: {}
+      operationId: orders.list
+      description: Retrieves the list of orders.
+  '/orders/{order}/lineItems':
+    parameters:
+      - schema:
+          type: string
+        name: order
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          $ref: '#/components/responses/OrderLineItemList'
+      operationId: orders.listLineItems
+components:
+  schemas:
+    Artwork:
+      title: Artwork
+      type: object
+      properties:
+        id:
+          description: The unique identifier for the resource. This identifier is defined by the server.
+          type: string
+          readOnly: true
+        mimeType:
+          description: The mime/type of artwork.
+          type: string
+          readOnly: true
+        width:
+          description: The width of artwork.
+          type: integer
+          readOnly: true
+        height:
+          description: The height of artwork.
+          type: integer
+          readOnly: true
+        url:
+          description: The url of artwork.
+          type: string
+          readOnly: true
+        createdAt:
+          description: Creation timestamp in RFC3339 text format.
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          description: Last update timestamp in RFC3339 text format.
+          type: string
+          format: date-time
+          readOnly: true
+    File:
+      title: File
+      type: object
+      properties:
+        id:
+          description: The unique identifier for the resource. This identifier is defined by the server.
+          type: string
+          readOnly: true
+        mimeType:
+          description: The mime/type of file.
+          type: string
+          readOnly: true
+        url:
+          description: The url of file.
+          type: string
+          readOnly: true
+        createdAt:
+          description: Creation timestamp in RFC3339 text format.
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          description: Last update timestamp in RFC3339 text format.
+          type: string
+          format: date-time
+          readOnly: true
+    Product:
+      type: object
+      title: Product
+      properties:
+        id:
+          type: string
+          readOnly: true
+        itemId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        variants:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductVariant'
+        printInstructions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PrintInstruction'
+        createdAt:
+          description: Creation timestamp in RFC3339 text format.
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          description: Last update timestamp in RFC3339 text format.
+          type: string
+          format: date-time
+          readOnly: true
+    ProductVariant:
+      title: ProductVariant
+      type: object
+      properties:
+        id:
+          type: string
+        itemVariantId:
+          type: string
+        price:
+          type: integer
+    PrintInstruction:
+      title: PrintInstruction
+      type: object
+      properties:
+        id:
+          type: string
+        printAreaId:
+          type: string
+        artworkId:
+          type: string
+        artworkWidth:
+          type: integer
+        artworkHeight:
+          type: integer
+        artworkTop:
+          type: number
+        artworkLeft:
+          type: integer
+        dpi:
+          type: integer
+    Operation:
+      title: Operation
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier for the operation. This identifier is defined by the server.
+          readOnly: true
+        name:
+          type: string
+          description: Name of the operation.
+          readOnly: true
+        clientOperationId:
+          type: string
+          description: The value of requestId if you provided it in the request. Not present otherwise.
+          readOnly: true
+        operationType:
+          type: string
+          description: 'The type of operation, such as insert, update, or delete, and so on.'
+          readOnly: true
+        targetLink:
+          type: string
+          description: The URL of the resource that the operation modifies
+          readOnly: true
+        targetId:
+          type: string
+          description: 'The unique target ID, which identifies a specific incarnation of the target resource.'
+          readOnly: true
+        status:
+          type: string
+          description: 'The status of the operation, which can be one of the following: PENDING, RUNNING, or DONE.'
+          enum:
+            - PENDING
+            - RUNNING
+            - DONE
+          readOnly: true
+        progress:
+          type: number
+          description: An optional progress indicator that ranges from 0 to 100. There is no requirement that this be linear or support any granularity of operations. This should not be used to guess when the operation will be complete. This number should monotonically increase as the operation progresses.
+          readOnly: true
+        createdAt:
+          type: string
+          description: The time that this operation was requested. This value is in RFC3339 text format.
+          format: date-time
+          readOnly: true
+        startedAt:
+          type: string
+          description: The time that this operation was started by the server. This value is in RFC3339 text format.
+          format: date-time
+          readOnly: true
+        endedAt:
+          type: string
+          description: The time that this operation was completed. This value is in RFC3339 text format.
+          format: date-time
+          readOnly: true
+        errors:
+          type: array
+          description: 'If errors are generated during processing of the operation, this field will be populated.'
+          items:
+            $ref: '#/components/schemas/OperationError'
+          readOnly: true
+        warnings:
+          type: array
+          description: 'If warning messages are generated during processing of the operation, this field will be populated.'
+          items:
+            $ref: '#/components/schemas/OperationWarning'
+          readOnly: true
+    OperationError:
+      type: object
+      title: OperationError
+      properties:
+        location:
+          type: string
+          description: Indicates the field in the request that caused the error. This property is optional.
+          readOnly: true
+        message:
+          type: string
+          description: 'An optional, human-readable error message.'
+          readOnly: true
+      readOnly: true
+    OperationWarning:
+      type: object
+      title: OperationError
+      properties:
+        location:
+          type: string
+          description: Indicates the field in the request that caused the warning. This property is optional.
+          readOnly: true
+        message:
+          type: string
+          description: 'An optional, human-readable warning message.'
+          readOnly: true
+      readOnly: true
+    Order:
+      title: Order
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        sourceType:
+          type: string
+        sourceId:
+          type: string
+        referenceId:
+          type: string
+        customer:
+          $ref: '#/components/schemas/Customer'
+        createdAt:
+          type: string
+          readOnly: true
+        updatedAt:
+          type: string
+          readOnly: true
+    Customer:
+      title: Customer
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        address:
+          type: object
+          properties:
+            line1:
+              type: string
+            line2:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+            postalCode:
+              type: string
+            country:
+              type: string
+        createdAt:
+          type: string
+          readOnly: true
+        updatedAt:
+          type: string
+          readOnly: true
+    OrderLineItem:
+      title: OrderLineItem
+      type: object
+      properties:
+        id:
+          type: string
+        order:
+          $ref: '#/components/schemas/Order'
+        referenceId:
+          type: string
+        variant:
+          $ref: '#/components/schemas/ProductVariant'
+        quantity:
+          type: number
+        createdAt:
+          type: string
+          readOnly: true
+        updatedAt:
+          type: string
+          readOnly: true
+  responses:
+    Artwork:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Artwork'
+    File:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/File'
+    Product:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Product'
+    ProductList:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              items:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+    OrderLineItemList:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              items:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderLineItem'
