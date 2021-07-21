@@ -47,6 +47,8 @@ paths:
             schema:
               $ref: '#/components/schemas/Product'
       description: Creates a product resource using the data included in the request.
+      tags:
+        - products
   '/products/{product}':
     parameters:
       - schema:
@@ -76,6 +78,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Product'
+      tags:
+        - products
     delete:
       summary: Delete product
       operationId: products.delete
@@ -84,6 +88,8 @@ paths:
         '204':
           description: No Content
       x-internal: false
+      tags:
+        - products
   /files:
     post:
       summary: Upload file
@@ -135,13 +141,14 @@ paths:
       operationId: orders.listLineItems
   /dataImports:
     get:
-      summary: Your GET endpoint
+      summary: List data imports
       tags:
         - data imports
       responses:
         '200':
           $ref: '#/components/responses/DataImportList'
       operationId: dataImports.list
+      description: Retrieves the list of data imports.
     post:
       summary: ''
       operationId: dataImports.insert
@@ -153,15 +160,18 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/DataImport'
+      tags:
+        - data imports
   /dataImports/importableDocuments:
     get:
-      summary: Your GET endpoint
+      summary: List importable documents
       tags:
         - data imports
       responses:
         '200':
           $ref: '#/components/responses/ImportableDocumentList'
       operationId: dataImports.listImportableDocuments
+      description: Retrieves the list of importable documents.
   '/dataImports/{dataImport}':
     parameters:
       - schema:
@@ -170,11 +180,12 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: Get data import
       tags:
         - data imports
       responses: {}
       operationId: dataImports.get
+      description: Returns the specified data import resource.
   '/dataImports/{dataImport}/start':
     parameters:
       - schema:
@@ -183,7 +194,7 @@ paths:
         in: path
         required: true
     post:
-      summary: ''
+      summary: Start data import
       operationId: dataImports.start
       responses:
         '200':
@@ -192,15 +203,17 @@ paths:
         - $ref: '#/components/parameters/requestId'
       tags:
         - data imports
+      description: Start a data import
   /orderLineItems:
     get:
-      summary: Your GET endpoint
+      summary: List order line items
       responses:
         '200':
           $ref: '#/components/responses/OrderLineItemList'
       operationId: orderLineItems.list
       tags:
         - orders
+      description: ''
 components:
   schemas:
     Artwork:
