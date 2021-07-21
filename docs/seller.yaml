@@ -2,6 +2,7 @@ openapi: 3.0.0
 info:
   title: Seller.v1
   version: '1.0'
+  description: ''
 servers:
   - url: 'http://localhost:3000'
 paths:
@@ -27,7 +28,8 @@ paths:
   /products:
     get:
       summary: List products
-      tags: []
+      tags:
+        - products
       responses:
         '200':
           $ref: '#/components/responses/ProductList'
@@ -55,7 +57,8 @@ paths:
         description: Name of the product resource.
     get:
       summary: Get product
-      tags: []
+      tags:
+        - products
       responses:
         '200':
           $ref: '#/components/responses/Product'
@@ -99,29 +102,20 @@ paths:
                   format: binary
                 purpose:
                   type: string
+                  enum:
+                    - DATA_IMPORT
+                    - ARTWORK
       description: Uploads an artwork resource using the data included in the request.
       tags:
         - files
-  /orders/import:
-    post:
-      summary: ''
-      operationId: orders.import
-      responses:
-        '200':
-          description: OK
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                fileId:
-                  type: string
   /orders:
     get:
       summary: List orders
-      tags: []
-      responses: {}
+      tags:
+        - orders
+      responses:
+        '200':
+          $ref: '#/components/responses/OrderList'
       operationId: orders.list
       description: Retrieves the list of orders.
   '/orders/{order}/lineItems':
@@ -133,11 +127,80 @@ paths:
         required: true
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - orders
       responses:
         '200':
           $ref: '#/components/responses/OrderLineItemList'
       operationId: orders.listLineItems
+  /dataImports:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - data imports
+      responses:
+        '200':
+          $ref: '#/components/responses/DataImportList'
+      operationId: dataImports.list
+    post:
+      summary: ''
+      operationId: dataImports.insert
+      responses:
+        '200':
+          $ref: '#/components/responses/DataImport'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataImport'
+  /dataImports/importableDocuments:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - data imports
+      responses:
+        '200':
+          $ref: '#/components/responses/ImportableDocumentList'
+      operationId: dataImports.listImportableDocuments
+  '/dataImports/{dataImport}':
+    parameters:
+      - schema:
+          type: string
+        name: dataImport
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags:
+        - data imports
+      responses: {}
+      operationId: dataImports.get
+  '/dataImports/{dataImport}/start':
+    parameters:
+      - schema:
+          type: string
+        name: dataImport
+        in: path
+        required: true
+    post:
+      summary: ''
+      operationId: dataImports.start
+      responses:
+        '200':
+          $ref: '#/components/responses/Operation'
+      parameters:
+        - $ref: '#/components/parameters/requestId'
+      tags:
+        - data imports
+  /orderLineItems:
+    get:
+      summary: Your GET endpoint
+      responses:
+        '200':
+          $ref: '#/components/responses/OrderLineItemList'
+      operationId: orderLineItems.list
+      tags:
+        - orders
 components:
   schemas:
     Artwork:
@@ -431,6 +494,134 @@ components:
         updatedAt:
           type: string
           readOnly: true
+    DataImport:
+      title: DataImport
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier for the operation. This identifier is defined by the server.
+          readOnly: true
+        name:
+          type: string
+          description: Name of the operation.
+        documentType:
+          type: string
+          description: The value of requestId if you provided it in the request. Not present otherwise.
+        importType:
+          type: string
+          description: 'The type of operation, such as insert, update, or delete, and so on.'
+          enum:
+            - INSERT
+            - UPDATE
+        fileId:
+          type: string
+          description: The URL of the resource that the operation modifies
+        status:
+          type: string
+          description: 'The status of the operation, which can be one of the following: PENDING, RUNNING, or DONE.'
+          enum:
+            - PENDING
+            - RUNNING
+            - DONE
+          readOnly: true
+        progress:
+          type: number
+          description: An optional progress indicator that ranges from 0 to 100. There is no requirement that this be linear or support any granularity of operations. This should not be used to guess when the operation will be complete. This number should monotonically increase as the operation progresses.
+          readOnly: true
+        createdAt:
+          type: string
+          description: The time that this operation was requested. This value is in RFC3339 text format.
+          format: date-time
+          readOnly: true
+        startedAt:
+          type: string
+          description: The time that this operation was started by the server. This value is in RFC3339 text format.
+          format: date-time
+          readOnly: true
+        endedAt:
+          type: string
+          description: The time that this operation was completed. This value is in RFC3339 text format.
+          format: date-time
+          readOnly: true
+        errors:
+          type: array
+          description: 'If errors are generated during processing of the operation, this field will be populated.'
+          items:
+            $ref: '#/components/schemas/OperationError'
+          readOnly: true
+        warnings:
+          type: array
+          description: 'If warning messages are generated during processing of the operation, this field will be populated.'
+          items:
+            $ref: '#/components/schemas/OperationWarning'
+          readOnly: true
+        options:
+          type: object
+          properties:
+            columnToFieldMap:
+              type: object
+            csv:
+              type: object
+              properties:
+                delimiter:
+                  type: string
+                enclosure:
+                  type: string
+                escapeCharacter:
+                  type: string
+                encoding:
+                  type: string
+      required:
+        - documentType
+    ImportableDocument:
+      title: ImportableDocument
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImportableDocumentField'
+    DataImportPreview:
+      title: DataImportPreview
+      type: object
+      properties:
+        columns:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: string
+              number:
+                type: string
+              name:
+                type: string
+              mapToField:
+                type: string
+              field:
+                $ref: '#/components/schemas/ImportableDocumentField'
+              skipImport:
+                type: boolean
+        data:
+          type: array
+          items:
+            type: array
+            items: {}
+    ImportableDocumentField:
+      title: ImportableDocumentField
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        required:
+          type: string
   responses:
     Artwork:
       description: Example response
@@ -472,3 +663,73 @@ components:
                 type: array
                 items:
                   $ref: '#/components/schemas/OrderLineItem'
+    DataImport:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DataImport'
+    DataImportList:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              items:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DataImport'
+    ImportableDocument:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ImportableDocument'
+    ImportableDocumentList:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              items:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ImportableDocument'
+    Operation:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Operation'
+    OperationList:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              items:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Operation'
+    OrderList:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              items:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+  parameters:
+    requestId:
+      name: requestId
+      in: query
+      schema:
+        type: string
+        format: uuid
+      description: 'An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed.For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments.The request ID must be a valid UUID with the exception that zero UUID is not supported (**00000000-0000-0000-0000-000000000000**).'
