@@ -132,13 +132,14 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: List order line items
       tags:
         - orders
       responses:
         '200':
           $ref: '#/components/responses/OrderLineItemList'
       operationId: orders.listLineItems
+      description: ''
   /dataImports:
     get:
       summary: List data imports
@@ -214,6 +215,21 @@ paths:
       tags:
         - orders
       description: ''
+  '/orders/{order}':
+    parameters:
+      - schema:
+          type: string
+        name: order
+        in: path
+        required: true
+    get:
+      summary: Get order
+      tags: []
+      responses:
+        '200':
+          $ref: '#/components/responses/Order'
+      operationId: orders.get
+      description: Returns the specified order resource.
 components:
   schemas:
     Artwork:
@@ -726,6 +742,12 @@ components:
                 type: array
                 items:
                   $ref: '#/components/schemas/Order'
+    Order:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Order'
   parameters:
     requestId:
       name: requestId
