@@ -557,18 +557,6 @@ components:
           description: The time that this operation was completed. This value is in RFC3339 text format.
           format: date-time
           readOnly: true
-        errors:
-          type: array
-          description: 'If errors are generated during processing of the operation, this field will be populated.'
-          items:
-            $ref: '#/components/schemas/OperationError'
-          readOnly: true
-        warnings:
-          type: array
-          description: 'If warning messages are generated during processing of the operation, this field will be populated.'
-          items:
-            $ref: '#/components/schemas/OperationWarning'
-          readOnly: true
         options:
           type: object
           properties:
