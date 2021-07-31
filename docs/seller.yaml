@@ -124,97 +124,6 @@ paths:
           $ref: '#/components/responses/OrderList'
       operationId: orders.list
       description: Retrieves the list of orders.
-  '/orders/{order}/lineItems':
-    parameters:
-      - schema:
-          type: string
-        name: order
-        in: path
-        required: true
-    get:
-      summary: List order line items
-      tags:
-        - orders
-      responses:
-        '200':
-          $ref: '#/components/responses/OrderLineItemList'
-      operationId: orders.listLineItems
-      description: ''
-  /dataImports:
-    get:
-      summary: List data imports
-      tags:
-        - data imports
-      responses:
-        '200':
-          $ref: '#/components/responses/DataImportList'
-      operationId: dataImports.list
-      description: Retrieves the list of data imports.
-    post:
-      summary: ''
-      operationId: dataImports.insert
-      responses:
-        '200':
-          $ref: '#/components/responses/DataImport'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DataImport'
-      tags:
-        - data imports
-  /dataImports/importableDocuments:
-    get:
-      summary: List importable documents
-      tags:
-        - data imports
-      responses:
-        '200':
-          $ref: '#/components/responses/ImportableDocumentList'
-      operationId: dataImports.listImportableDocuments
-      description: Retrieves the list of importable documents.
-  '/dataImports/{dataImport}':
-    parameters:
-      - schema:
-          type: string
-        name: dataImport
-        in: path
-        required: true
-    get:
-      summary: Get data import
-      tags:
-        - data imports
-      responses: {}
-      operationId: dataImports.get
-      description: Returns the specified data import resource.
-  '/dataImports/{dataImport}/start':
-    parameters:
-      - schema:
-          type: string
-        name: dataImport
-        in: path
-        required: true
-    post:
-      summary: Start data import
-      operationId: dataImports.start
-      responses:
-        '200':
-          $ref: '#/components/responses/Operation'
-      parameters:
-        - $ref: '#/components/parameters/requestId'
-      tags:
-        - data imports
-      description: Start a data import
-  /orderLineItems:
-    get:
-      summary: List order line items
-      responses:
-        '200':
-          $ref: '#/components/responses/OrderLineItemList'
-      operationId: orderLineItems.list
-      tags:
-        - orders
-      description: ''
   '/orders/{order}':
     parameters:
       - schema:
@@ -231,6 +140,93 @@ paths:
           $ref: '#/components/responses/Order'
       operationId: orders.get
       description: Returns the specified order resource.
+  '/orders/{order}/lineItems':
+    parameters:
+      - schema:
+          type: string
+        name: order
+        in: path
+        required: true
+    get:
+      summary: List order line items
+      tags:
+        - orders
+      responses:
+        '200':
+          $ref: '#/components/responses/OrderLineItemList'
+      operationId: orders.listLineItems
+      description: ''
+  '/orders/{order}/dataImports':
+    get:
+      summary: List data imports
+      responses:
+        '200':
+          $ref: '#/components/responses/DataImportList'
+      operationId: orders.listDataImports
+      description: Retrieves the list of data imports.
+      tags:
+        - orders
+    post:
+      summary: Create data import
+      operationId: orders.insertDataImport
+      responses:
+        '200':
+          $ref: '#/components/responses/DataImport'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataImport'
+      tags:
+        - orders
+    parameters:
+      - schema:
+          type: string
+        name: order
+        in: path
+        required: true
+  '/orders/{order}/dataImports/{dataImport}':
+    parameters:
+      - schema:
+          type: string
+        name: dataImport
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: order
+        in: path
+        required: true
+    get:
+      summary: Get data import
+      responses: {}
+      operationId: orders.getDataImport
+      description: Returns the specified data import resource.
+      tags:
+        - orders
+  '/orders/{order}/dataImports/{dataImport}/start':
+    parameters:
+      - schema:
+          type: string
+        name: dataImport
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: order
+        in: path
+        required: true
+    post:
+      summary: Start data import
+      operationId: orders.startDataImport
+      responses:
+        '200':
+          $ref: '#/components/responses/Operation'
+      parameters:
+        - $ref: '#/components/parameters/requestId'
+      description: Start a data import
+      tags:
+        - orders
 components:
   schemas:
     Artwork:
@@ -454,14 +450,34 @@ components:
         id:
           type: string
           readOnly: true
-        sourceType:
+        name:
           type: string
-        sourceId:
+        number:
+          type: integer
+        status:
           type: string
-        referenceId:
+          enum:
+            - PENDING
+            - AWAITING_PAYMENT
+            - AWAITING_FULFILLMENT
+            - CANCELLED
+            - COMPLETED
+        cancelReason:
           type: string
-        customer:
-          $ref: '#/components/schemas/Customer'
+        cancelledAt:
+          type: string
+          format: date-time
+          readOnly: true
+        completedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        fulfillmentStatus:
+          type: string
+          enum:
+            - UNFULFILLED
+            - FULFILLED
+            - PARTIALLY_FULFILLED
         createdAt:
           type: string
           readOnly: true
@@ -510,14 +526,40 @@ components:
       properties:
         id:
           type: string
-        order:
-          $ref: '#/components/schemas/Order'
         referenceId:
           type: string
-        variant:
-          $ref: '#/components/schemas/ProductVariant'
+        referenceId2:
+          type: string
+        productId:
+          type: string
+        variantId:
+          type: string
+        artworkUrl:
+          type: string
+        mockupUrl:
+          type: string
+        artworkUrl2:
+          type: string
+        mockupUrl2:
+          type: string
+        artworkUrl3:
+          type: string
+        mockupUrl3:
+          type: string
+        artworkUrl4:
+          type: string
+        mockupUrl4:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
         quantity:
           type: number
+        price:
+          type: string
+        subtotal:
+          type: string
+        total:
+          type: string
         createdAt:
           type: string
           readOnly: true
@@ -535,18 +577,12 @@ components:
         name:
           type: string
           description: Name of the operation.
-        documentType:
-          type: string
-          description: The value of requestId if you provided it in the request. Not present otherwise.
-        importType:
-          type: string
-          description: 'The type of operation, such as insert, update, or delete, and so on.'
-          enum:
-            - INSERT
-            - UPDATE
+          readOnly: true
         fileId:
           type: string
           description: The URL of the resource that the operation modifies
+        file:
+          $ref: '#/components/schemas/File'
         status:
           type: string
           description: 'The status of the operation, which can be one of the following: PENDING, RUNNING, or DONE.'
@@ -554,10 +590,6 @@ components:
             - PENDING
             - RUNNING
             - DONE
-          readOnly: true
-        progress:
-          type: number
-          description: An optional progress indicator that ranges from 0 to 100. There is no requirement that this be linear or support any granularity of operations. This should not be used to guess when the operation will be complete. This number should monotonically increase as the operation progresses.
           readOnly: true
         createdAt:
           type: string
@@ -590,8 +622,6 @@ components:
                   type: string
                 encoding:
                   type: string
-      required:
-        - documentType
     ImportableDocument:
       title: ImportableDocument
       type: object
@@ -639,6 +669,42 @@ components:
         name:
           type: string
         required:
+          type: string
+    Address:
+      title: Address
+      type: object
+      properties:
+        id:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        company:
+          type: string
+        address:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        stateCode:
+          type: string
+        country:
+          type: string
+        countryCode:
+          type: string
+        postalCode:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        email:
+          type: string
+        phone:
           type: string
   responses:
     Artwork:
