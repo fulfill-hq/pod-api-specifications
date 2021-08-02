@@ -25,6 +25,43 @@ paths:
       description: Uploads an artwork resource using the data included in the request.
       tags:
         - artworks
+  /login:
+    post:
+      summary: Authorization
+      responses:
+        '200':
+          $ref: '#/components/responses/Login'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+      description: Login as seller.
+      tags:
+        - auth
+  /register:
+    post:
+      summary: Register
+      responses:
+        '200':
+          $ref: '#/components/responses/Register'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Register'
+      description: Register as seller.
+      tags:
+        - auth
+  /profile:
+    get:
+      summary: Get seller profile.
+      responses:
+        '200':
+          $ref: '#/components/responses/Profile'
+      description: Login as seller.
+      tags:
+        - auth
   /products:
     get:
       summary: List products
@@ -706,6 +743,40 @@ components:
           type: string
         phone:
           type: string
+    Login:
+      title: Auth Login
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    Register:
+      title: Register
+      type: object
+      properties:
+        email:
+          type: string
+        name:
+          type: string
+        password:
+          type: string
+        confirmPassword:
+          type: string
+    Seller:
+      title: Seller
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+
   responses:
     Artwork:
       description: Example response
@@ -815,6 +886,65 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Order'
+    Login:
+      description: Login response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  email:
+                    type: string
+                  name:
+                    type: string
+                  created_at:
+                    type: string
+                    format: date-time
+              token:
+                type: string
+    Register:
+      description: Register response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  email:
+                    type: string
+                  name:
+                    type: string
+                  created_at:
+                    type: string
+                    format: date-time
+    Profile:
+      description: Profile response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  email:
+                    type: string
+                  name:
+                    type: string
+                  created_at:
+                    type: string
+                    format: date-time
   parameters:
     requestId:
       name: requestId
