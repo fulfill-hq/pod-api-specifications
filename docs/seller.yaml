@@ -473,17 +473,6 @@ components:
           readOnly: true
         description:
           type: string
-        status:
-          type: string
-          enum:
-            - DRAFT
-            - UPDATING
-            - PENDING
-            - AWAITING_PAYMENT
-            - AWAITING_FULFILLMENT
-            - CANCELLED
-            - COMPLETED
-          readOnly: true
         cancelReason:
           type: string
           readOnly: true
@@ -501,6 +490,19 @@ components:
             - UNFULFILLED
             - FULFILLED
             - PARTIALLY_FULFILLED
+          readOnly: true
+        total:
+          type: string
+        status:
+          type: string
+          enum:
+            - DRAFT
+            - UPDATING
+            - PENDING
+            - AWAITING_PAYMENT
+            - AWAITING_FULFILLMENT
+            - CANCELLED
+            - COMPLETED
           readOnly: true
         createdAt:
           type: string
