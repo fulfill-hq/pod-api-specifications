@@ -476,7 +476,7 @@ components:
         cancelReason:
           type: string
           readOnly: true
-        cancelledAt:
+        canceledAt:
           type: string
           format: date-time
           readOnly: true
