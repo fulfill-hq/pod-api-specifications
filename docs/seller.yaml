@@ -497,11 +497,10 @@ components:
           type: string
           enum:
             - DRAFT
-            - UPDATING
-            - PENDING
-            - AWAITING_PAYMENT
-            - AWAITING_FULFILLMENT
             - CANCELLED
+            - AWAITING_PAYMENT
+            - SUBMITTED
+            - PROCESSING
             - COMPLETED
           readOnly: true
         createdAt:
