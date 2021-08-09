@@ -170,6 +170,34 @@ paths:
           $ref: '#/components/responses/OrderLineItemList'
       operationId: orders.listLineItems
       description: ''
+      parameters:
+        - schema:
+            type: array
+          in: query
+          name: ids
+        - schema:
+            type: number
+            default: 15
+            maximum: 500
+            minimum: 1
+          in: query
+          name: limit
+          description: 'The maximum number of results per page that should be returned. If the number of available results '
+  '/orders/{order}/lineItems/ids':
+    parameters:
+      - schema:
+          type: string
+        name: order
+        in: path
+        required: true
+    get:
+      summary: List order line item ids
+      tags:
+        - orders
+      responses:
+        '200':
+          $ref: '#/components/responses/OrderLineItemIdList'
+      operationId: orders.listLineItemIds
   '/orders/{order}/dataImports':
     get:
       summary: List data imports
@@ -772,6 +800,17 @@ components:
           type: string
         phone:
           type: string
+    OrderLineItemId:
+      title: OrderLineItemId
+      type: object
+      properties:
+        id:
+          type: string
+        hash:
+          type: string
+        duplicates:
+          type: array
+          items: {}
   responses:
     Artwork:
       description: Example response
@@ -881,6 +920,17 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Order'
+    OrderLineItemIdList:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              items:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderLineItemId'
   parameters:
     requestId:
       name: requestId
