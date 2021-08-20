@@ -245,6 +245,11 @@ paths:
       responses: {}
       operationId: orders.getDataImport
       description: Returns the specified data import resource.
+    delete:
+      summary: Delete data import
+      responses: {}
+      operationId: orders.deleteDataImport
+      description: delete data import.
       tags:
         - orders
   '/orders/{order}/dataImports/{dataImport}/start':
