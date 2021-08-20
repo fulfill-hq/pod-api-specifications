@@ -311,6 +311,25 @@ paths:
                 reason:
                   type: string
         description: ''
+  '/orders/{order}/dataExports/{dataImport}/failLogs':
+    parameters:
+      - schema:
+          type: string
+        name: order
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: dataImport
+        in: path
+        required: true
+    get:
+      summary: Export data error
+      responses: {}
+      operationId: orders.exportFailLogs
+      description: Returns Fail logs.
+      tags:
+        - orders
 components:
   schemas:
     Artwork:
