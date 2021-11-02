@@ -1560,6 +1560,155 @@ paths:
         name: account
         in: path
         required: true
+  '/accounts/{account}/invoices/{id}':
+    get:
+      summary: Invoice Endpoints
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  id:
+                    type: string
+                    minLength: 1
+                  account:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        minLength: 1
+                      code:
+                        type: string
+                        minLength: 1
+                      name:
+                        type: string
+                        minLength: 1
+                      balance:
+                        type: string
+                        minLength: 1
+                      role:
+                        type: string
+                        minLength: 1
+                      createdAt:
+                        type: string
+                        minLength: 1
+                      updatedAt:
+                        type: string
+                        minLength: 1
+                      deletedAt: {}
+                    required:
+                      - id
+                      - code
+                      - name
+                      - balance
+                      - role
+                      - createdAt
+                      - updatedAt
+                  number:
+                    type: string
+                    minLength: 1
+                  poNumber:
+                    type: string
+                    minLength: 1
+                  lineItems:
+                    type: array
+                    items:
+                      required: []
+                      properties: {}
+                  total:
+                    type: string
+                    minLength: 1
+                  status:
+                    type: string
+                    minLength: 1
+                  createdAt:
+                    type: string
+                    minLength: 1
+                  updatedAt:
+                    type: string
+                    minLength: 1
+                required:
+                  - id
+                  - account
+                  - number
+                  - poNumber
+                  - lineItems
+                  - total
+                  - status
+                  - createdAt
+                  - updatedAt
+                x-examples:
+                  example-1:
+                    id: 94c75730-0e0f-47b3-9a26-4348fa45a79d
+                    account:
+                      id: 94c74d1e-3efa-4f3f-9ff2-1fa8221792f6
+                      code: HIWEBC
+                      name: HiWeb
+                      balance: '0.00'
+                      role: OWNER
+                      createdAt: '2021-11-02T07:12:12.000000Z'
+                      updatedAt: '2021-11-02T07:40:21.000000Z'
+                      deletedAt: null
+                    number: HIWEBC-IV000001
+                    poNumber: HIWEBC-OR000001
+                    lineItems: []
+                    total: '0.00'
+                    status: PAID
+                    createdAt: '2021-11-02T07:40:21.000000Z'
+                    updatedAt: '2021-11-02T07:40:21.000000Z'
+              examples:
+                example:
+                  value:
+                    items: []
+                    perPage: 15
+                    total: 0
+                    currentPage: 1
+                    totalPages: 1
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - message
+                x-examples:
+                  example-1:
+                    message: Unauthenticated.
+              examples:
+                example:
+                  value:
+                    message: Unauthenticated.
+      operationId: get-accounts
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Bearer Token
+      description: Get list invoices
+    parameters:
+      - schema:
+          type: string
+        name: account
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
   '/accounts/{account}/orders':
     get:
       summary: Order Endpoints
@@ -2956,6 +3105,1988 @@ paths:
           name: Authorization
           description: Bearer Token
           required: true
+  '/accounts/{account}/orders/{order}/dataImports':
+    parameters:
+      - schema:
+          type: string
+        name: account
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: order
+        in: path
+        required: true
+    post:
+      summary: ''
+      operationId: post-accounts-account-orders-order
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  id:
+                    type: string
+                    minLength: 1
+                  name:
+                    type: string
+                    minLength: 1
+                  file:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        minLength: 1
+                      url:
+                        type: string
+                        minLength: 1
+                    required:
+                      - id
+                      - url
+                  failureCount: {}
+                  failCount: {}
+                  successCount: {}
+                  deleting: {}
+                  status:
+                    type: string
+                    minLength: 1
+                  options:
+                    type: object
+                    properties:
+                      fieldToColumnMap:
+                        type: object
+                        properties:
+                          name:
+                            type: number
+                          company:
+                            type: number
+                          email:
+                            type: number
+                          phone:
+                            type: number
+                          addressLine1:
+                            type: number
+                          addressLine2:
+                            type: number
+                          city:
+                            type: number
+                          state:
+                            type: number
+                          postalCode:
+                            type: number
+                          countryCode:
+                            type: number
+                          referenceId:
+                            type: number
+                          referenceId2:
+                            type: number
+                          referenceId3:
+                            type: number
+                          quantity:
+                            type: number
+                          variantId:
+                            type: number
+                          mockupUrl:
+                            type: number
+                          artworkUrl:
+                            type: number
+                          artworkUrl2:
+                            type: number
+                          artworkUrl3:
+                            type: number
+                          artworkUrl4:
+                            type: number
+                          description:
+                            type: number
+                          shippingService:
+                            type: number
+                          note:
+                            type: number
+                        required:
+                          - name
+                          - company
+                          - email
+                          - phone
+                          - addressLine1
+                          - addressLine2
+                          - city
+                          - state
+                          - postalCode
+                          - countryCode
+                          - referenceId
+                          - referenceId2
+                          - referenceId3
+                          - quantity
+                          - variantId
+                          - mockupUrl
+                          - artworkUrl
+                          - artworkUrl2
+                          - artworkUrl3
+                          - artworkUrl4
+                          - description
+                          - shippingService
+                          - note
+                    required:
+                      - fieldToColumnMap
+                  createdAt:
+                    type: string
+                    minLength: 1
+                  updatedAt:
+                    type: string
+                    minLength: 1
+                  startedAt: {}
+                  endedAt: {}
+                required:
+                  - id
+                  - name
+                  - file
+                  - status
+                  - options
+                  - createdAt
+                  - updatedAt
+                x-examples:
+                  example-1:
+                    id: 94c7459f-b257-401f-a76a-29539b39816e
+                    name: data-2-3rd-copy.xlsx
+                    file:
+                      id: 94c7427f-e973-484b-aef6-1dd60b557c10
+                      url: 'https://storage.googleapis.com/fulfill-pod/user-uploaded/cdYt7gav2pL07D3Gm9UDURQ2YdSaKKVFKW0Bl4Rh.xlsx?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=dev-sa%40clickfulfill.iam.gserviceaccount.com%2F20211102%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20211102T065114Z&X-Goog-Expires=3600&X-Goog-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22data-2-3rd-copy.xlsx%22&response-content-type=application%2Fvnd.openxmlformats-officedocument.spreadsheetml.sheet&X-Goog-Signature=72c6bf08c53af3a1e0e38a007d0af9e192ac73da22fd9c2d9ddedd646ad08aa4f698664453bc31e451a6f12c49cfed3fea16c00fd7adc8e677683be09a0d318804ac4939c0e2fb71b84c02df46608b5a56ada61abb181f88e4dcad2a9f3bc74e3f894290f101fcfa8c04119900471b19aec7961a66894ea316708c6ccbebfe54f771ccbf8f9584eee9bad90c1469c3d00b5811a986b12ff9e9693b3a0dfcca3f214178846497e70fccf446441bd4c012270b822c5c5cab6f27ff3daac21ac2c2335cb5e519dd279a2e77ca1495f2409c3194100cc11b3274290a340022b44ff1f8a2230ce60bf5b3b580da13fa58995689e4d08323811cdce96bbe58a4e8d11b'
+                    failureCount: null
+                    failCount: null
+                    successCount: null
+                    deleting: null
+                    status: PENDING
+                    options:
+                      fieldToColumnMap:
+                        name: 0
+                        company: 2
+                        email: 3
+                        phone: 4
+                        addressLine1: 5
+                        addressLine2: 6
+                        city: 7
+                        state: 8
+                        postalCode: 9
+                        countryCode: 10
+                        referenceId: 11
+                        referenceId2: 12
+                        referenceId3: 12
+                        quantity: 13
+                        variantId: 14
+                        mockupUrl: 16
+                        artworkUrl: 15
+                        artworkUrl2: 17
+                        artworkUrl3: 19
+                        artworkUrl4: 21
+                        description: 20
+                        shippingService: 21
+                        note: 22
+                    createdAt: '2021-11-02T06:51:14.000000Z'
+                    updatedAt: '2021-11-02T06:51:14.000000Z'
+                    startedAt: null
+                    endedAt: null
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+        '':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+      description: Import order
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer Token
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                fileId:
+                  type: string
+                  minLength: 1
+                file:
+                  type: object
+                  properties: {}
+                  required: []
+                options:
+                  type: object
+                  properties:
+                    columnToFieldMap:
+                      type: object
+                      properties: {}
+                      required: []
+                    csv:
+                      type: object
+                      properties:
+                        delimiter:
+                          type: string
+                        enclosure:
+                          type: string
+                        escapeCharacter:
+                          type: string
+                        encoding:
+                          type: string
+                      required:
+                        - delimiter
+                        - enclosure
+                        - escapeCharacter
+                        - encoding
+                  required:
+                    - columnToFieldMap
+                    - csv
+              required:
+                - fileId
+                - file
+                - options
+              x-examples:
+                example-1:
+                  fileId: '{{IMPORT_ID}}'
+                  file: {}
+                  options:
+                    columnToFieldMap: {}
+                    csv:
+                      delimiter: ''
+                      enclosure: ''
+                      escapeCharacter: ''
+                      encoding: ''
+    get:
+      summary: Get list dataimports
+      operationId: get-accounts-account-orders-order-dataImports
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  items:
+                    type: array
+                    uniqueItems: true
+                    minItems: 1
+                    items:
+                      required:
+                        - id
+                        - name
+                        - deleting
+                        - status
+                        - createdAt
+                        - updatedAt
+                      properties:
+                        id:
+                          type: string
+                          minLength: 1
+                        name:
+                          type: string
+                          minLength: 1
+                        file:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              minLength: 1
+                            url:
+                              type: string
+                              minLength: 1
+                          required:
+                            - id
+                            - url
+                        failureCount: {}
+                        failCount: {}
+                        successCount: {}
+                        deleting:
+                          type: boolean
+                        status:
+                          type: string
+                          minLength: 1
+                        options:
+                          type: object
+                          properties:
+                            fieldToColumnMap:
+                              type: object
+                              properties:
+                                city:
+                                  type: number
+                                name:
+                                  type: number
+                                note:
+                                  type: number
+                                email:
+                                  type: number
+                                phone:
+                                  type: number
+                                state:
+                                  type: number
+                                company:
+                                  type: number
+                                quantity:
+                                  type: number
+                                mockupUrl:
+                                  type: number
+                                variantId:
+                                  type: number
+                                artworkUrl:
+                                  type: number
+                                postalCode:
+                                  type: number
+                                artworkUrl2:
+                                  type: number
+                                artworkUrl3:
+                                  type: number
+                                artworkUrl4:
+                                  type: number
+                                countryCode:
+                                  type: number
+                                description:
+                                  type: number
+                                referenceId:
+                                  type: number
+                                addressLine1:
+                                  type: number
+                                addressLine2:
+                                  type: number
+                                referenceId2:
+                                  type: number
+                                referenceId3:
+                                  type: number
+                                shippingService:
+                                  type: number
+                              required:
+                                - city
+                                - name
+                                - note
+                                - email
+                                - phone
+                                - state
+                                - company
+                                - quantity
+                                - mockupUrl
+                                - variantId
+                                - artworkUrl
+                                - postalCode
+                                - artworkUrl2
+                                - artworkUrl3
+                                - artworkUrl4
+                                - countryCode
+                                - description
+                                - referenceId
+                                - addressLine1
+                                - addressLine2
+                                - referenceId2
+                                - referenceId3
+                                - shippingService
+                          required:
+                            - fieldToColumnMap
+                        createdAt:
+                          type: string
+                          minLength: 1
+                        updatedAt:
+                          type: string
+                          minLength: 1
+                        startedAt: {}
+                        endedAt: {}
+                  perPage:
+                    type: number
+                  total:
+                    type: number
+                  currentPage:
+                    type: number
+                  totalPages:
+                    type: number
+                required:
+                  - items
+                  - perPage
+                  - total
+                  - currentPage
+                  - totalPages
+                x-examples:
+                  example-1:
+                    items:
+                      - id: 94c7459f-b257-401f-a76a-29539b39816e
+                        name: data-2-3rd-copy.xlsx
+                        file:
+                          id: 94c7427f-e973-484b-aef6-1dd60b557c10
+                          url: 'https://storage.googleapis.com/fulfill-pod/user-uploaded/cdYt7gav2pL07D3Gm9UDURQ2YdSaKKVFKW0Bl4Rh.xlsx?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=dev-sa%40clickfulfill.iam.gserviceaccount.com%2F20211102%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20211102T065336Z&X-Goog-Expires=3600&X-Goog-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22data-2-3rd-copy.xlsx%22&response-content-type=application%2Fvnd.openxmlformats-officedocument.spreadsheetml.sheet&X-Goog-Signature=3b0d314f67832df3e1eaf3c9ba15106b697ec325bc731b03b06beebc2782684c29e4cf6c7f8c9361a76579a8dee8fc4d4d1bf8b5b60fc495d615ef243ae336a3abcfd3d3b0e3885fd0116b1b0cd94a8db21962ef62f986a1e479225f51f8f1e6b0760dffa86a5ca7f0bd1fee3633d42569fab3f3ef1d90fe75f0b040acf254ef99124b71a94f764b606552e7ab95a374860f376d90bed879228af803b913f031324032328482bbf2e811791f4532d3b18541b80ddb482cb6788ce122de3941f302a08843a843c9f06f2541eb5c5b66b70647928604d17bf6f3ebd760eb98d6f906bffbd64a3edc8bc8b47f0a4e758ecb99bb6914c8fafdbf7c98af9378ab7ba2'
+                        failureCount: null
+                        failCount: null
+                        successCount: null
+                        deleting: false
+                        status: PENDING
+                        options:
+                          fieldToColumnMap:
+                            city: 7
+                            name: 0
+                            note: 22
+                            email: 3
+                            phone: 4
+                            state: 8
+                            company: 2
+                            quantity: 13
+                            mockupUrl: 16
+                            variantId: 14
+                            artworkUrl: 15
+                            postalCode: 9
+                            artworkUrl2: 17
+                            artworkUrl3: 19
+                            artworkUrl4: 21
+                            countryCode: 10
+                            description: 20
+                            referenceId: 11
+                            addressLine1: 5
+                            addressLine2: 6
+                            referenceId2: 12
+                            referenceId3: 12
+                            shippingService: 21
+                        createdAt: '2021-11-02T06:51:14.000000Z'
+                        updatedAt: '2021-11-02T06:51:14.000000Z'
+                        startedAt: null
+                        endedAt: null
+                    perPage: 15
+                    total: 1
+                    currentPage: 1
+                    totalPages: 1
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+      description: ''
+      parameters:
+        - schema:
+            type: string
+          in: header
+          description: Bearer Token
+          required: true
+          name: Authorization
+  '/accounts/{account}/orders/{order}/dataImports/{id}/start':
+    parameters:
+      - schema:
+          type: string
+        name: account
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: order
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    post:
+      summary: ''
+      operationId: post-accounts-account-orders-order
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  id:
+                    type: string
+                    minLength: 1
+                  name:
+                    type: string
+                    minLength: 1
+                  file:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        minLength: 1
+                      url:
+                        type: string
+                        minLength: 1
+                    required:
+                      - id
+                      - url
+                  failureCount: {}
+                  failCount: {}
+                  successCount: {}
+                  deleting:
+                    type: boolean
+                  status:
+                    type: string
+                    minLength: 1
+                  options:
+                    type: object
+                    properties:
+                      fieldToColumnMap:
+                        type: object
+                        properties:
+                          city:
+                            type: number
+                          name:
+                            type: number
+                          note:
+                            type: number
+                          email:
+                            type: number
+                          phone:
+                            type: number
+                          state:
+                            type: number
+                          company:
+                            type: number
+                          quantity:
+                            type: number
+                          mockupUrl:
+                            type: number
+                          variantId:
+                            type: number
+                          artworkUrl:
+                            type: number
+                          postalCode:
+                            type: number
+                          artworkUrl2:
+                            type: number
+                          artworkUrl3:
+                            type: number
+                          artworkUrl4:
+                            type: number
+                          countryCode:
+                            type: number
+                          description:
+                            type: number
+                          referenceId:
+                            type: number
+                          addressLine1:
+                            type: number
+                          addressLine2:
+                            type: number
+                          referenceId2:
+                            type: number
+                          referenceId3:
+                            type: number
+                          shippingService:
+                            type: number
+                        required:
+                          - city
+                          - name
+                          - note
+                          - email
+                          - phone
+                          - state
+                          - company
+                          - quantity
+                          - mockupUrl
+                          - variantId
+                          - artworkUrl
+                          - postalCode
+                          - artworkUrl2
+                          - artworkUrl3
+                          - artworkUrl4
+                          - countryCode
+                          - description
+                          - referenceId
+                          - addressLine1
+                          - addressLine2
+                          - referenceId2
+                          - referenceId3
+                          - shippingService
+                    required:
+                      - fieldToColumnMap
+                  createdAt:
+                    type: string
+                    minLength: 1
+                  updatedAt:
+                    type: string
+                    minLength: 1
+                  startedAt:
+                    type: string
+                    minLength: 1
+                  endedAt: {}
+                required:
+                  - id
+                  - name
+                  - file
+                  - deleting
+                  - status
+                  - options
+                  - createdAt
+                  - updatedAt
+                  - startedAt
+                x-examples:
+                  example-1:
+                    id: 94c7459f-b257-401f-a76a-29539b39816e
+                    name: data-2-3rd-copy.xlsx
+                    file:
+                      id: 94c7427f-e973-484b-aef6-1dd60b557c10
+                      url: 'https://storage.googleapis.com/fulfill-pod/user-uploaded/cdYt7gav2pL07D3Gm9UDURQ2YdSaKKVFKW0Bl4Rh.xlsx?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=dev-sa%40clickfulfill.iam.gserviceaccount.com%2F20211102%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20211102T065445Z&X-Goog-Expires=3600&X-Goog-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22data-2-3rd-copy.xlsx%22&response-content-type=application%2Fvnd.openxmlformats-officedocument.spreadsheetml.sheet&X-Goog-Signature=9af467547cf3ff8424b1c6641b25661eaf1907c3f5c23a875bf86c8c32a8976b741c38f57dfcce0e889ce62ffb45847ac52ef7d643ba89d204f2522e5b546b0fb8affc8da7a0378dc17775fef5161e64d8511f9990bcb0983554cf546ab63fc3dd9b16c27b6592ac5d9731755304c28e3e8ac138d5e6c32c1a6324b56872d9e5648a3fcec7ff673c8ec28731c86b6a14304cc1384c2f6ff4e80acc57a02c6283fa1c9b58127a30a12b5f3aef429965be0c15a14037e8f894ba1bc2e5cca9f2d78778b87bd0ba135e6fd6dac7949cc4c6a6b286b08a6e75e2e9059639a352f76112cb0b4ab7306305c388cb2fd15e3dbaecc1deedd6dd05d3986b6321eb55d329'
+                    failureCount: null
+                    failCount: null
+                    successCount: null
+                    deleting: false
+                    status: RUNNING
+                    options:
+                      fieldToColumnMap:
+                        city: 7
+                        name: 0
+                        note: 22
+                        email: 3
+                        phone: 4
+                        state: 8
+                        company: 2
+                        quantity: 13
+                        mockupUrl: 16
+                        variantId: 14
+                        artworkUrl: 15
+                        postalCode: 9
+                        artworkUrl2: 17
+                        artworkUrl3: 19
+                        artworkUrl4: 21
+                        countryCode: 10
+                        description: 20
+                        referenceId: 11
+                        addressLine1: 5
+                        addressLine2: 6
+                        referenceId2: 12
+                        referenceId3: 12
+                        shippingService: 21
+                    createdAt: '2021-11-02T06:51:14.000000Z'
+                    updatedAt: '2021-11-02T06:54:45.000000Z'
+                    startedAt: '2021-11-02T06:54:45.000000Z'
+                    endedAt: null
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+        '':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+      description: Import order
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer Token
+          required: true
+  '/accounts/{account}/orders/{order}/lineItems':
+    parameters:
+      - schema:
+          type: string
+        name: account
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: order
+        in: path
+        required: true
+    get:
+      summary: Get lineitems
+      operationId: get-accounts-account-orders-order-dataImports-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  id:
+                    type: string
+                    minLength: 1
+                  name:
+                    type: string
+                    minLength: 1
+                  file:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        minLength: 1
+                      url:
+                        type: string
+                        minLength: 1
+                    required:
+                      - id
+                      - url
+                  failureCount: {}
+                  failCount: {}
+                  successCount: {}
+                  deleting:
+                    type: boolean
+                  status:
+                    type: string
+                    minLength: 1
+                  options:
+                    type: object
+                    properties:
+                      fieldToColumnMap:
+                        type: object
+                        properties:
+                          city:
+                            type: number
+                          name:
+                            type: number
+                          note:
+                            type: number
+                          email:
+                            type: number
+                          phone:
+                            type: number
+                          state:
+                            type: number
+                          company:
+                            type: number
+                          quantity:
+                            type: number
+                          mockupUrl:
+                            type: number
+                          variantId:
+                            type: number
+                          artworkUrl:
+                            type: number
+                          postalCode:
+                            type: number
+                          artworkUrl2:
+                            type: number
+                          artworkUrl3:
+                            type: number
+                          artworkUrl4:
+                            type: number
+                          countryCode:
+                            type: number
+                          description:
+                            type: number
+                          referenceId:
+                            type: number
+                          addressLine1:
+                            type: number
+                          addressLine2:
+                            type: number
+                          referenceId2:
+                            type: number
+                          referenceId3:
+                            type: number
+                          shippingService:
+                            type: number
+                        required:
+                          - city
+                          - name
+                          - note
+                          - email
+                          - phone
+                          - state
+                          - company
+                          - quantity
+                          - mockupUrl
+                          - variantId
+                          - artworkUrl
+                          - postalCode
+                          - artworkUrl2
+                          - artworkUrl3
+                          - artworkUrl4
+                          - countryCode
+                          - description
+                          - referenceId
+                          - addressLine1
+                          - addressLine2
+                          - referenceId2
+                          - referenceId3
+                          - shippingService
+                    required:
+                      - fieldToColumnMap
+                  createdAt:
+                    type: string
+                    minLength: 1
+                  updatedAt:
+                    type: string
+                    minLength: 1
+                  startedAt:
+                    type: string
+                    minLength: 1
+                  endedAt: {}
+                required:
+                  - id
+                  - name
+                  - file
+                  - deleting
+                  - status
+                  - options
+                  - createdAt
+                  - updatedAt
+                  - startedAt
+                x-examples:
+                  example-1:
+                    id: 94c7459f-b257-401f-a76a-29539b39816e
+                    name: data-2-3rd-copy.xlsx
+                    file:
+                      id: 94c7427f-e973-484b-aef6-1dd60b557c10
+                      url: 'https://storage.googleapis.com/fulfill-pod/user-uploaded/cdYt7gav2pL07D3Gm9UDURQ2YdSaKKVFKW0Bl4Rh.xlsx?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=dev-sa%40clickfulfill.iam.gserviceaccount.com%2F20211102%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20211102T065947Z&X-Goog-Expires=3600&X-Goog-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22data-2-3rd-copy.xlsx%22&response-content-type=application%2Fvnd.openxmlformats-officedocument.spreadsheetml.sheet&X-Goog-Signature=8e3421d08c1e1ce2606c867477aa159a59a6285e193b6ab7e3dddc387d33f237025912b28c6c1e28ffa9a36173ae763e08c7baf82eaa9e194e885343ad6a2787888e2fcd3f94af241b486df005d974a583adf6f06111a96734c45aaa9cda424ca4df6f3eb4a4d49720fdb9a6d9a45687b8e4f388d0196562a21ead00f29b6845c0b603c9d7be2f34d47046690be3f01f2351453381bbf9cd75609b1ba84646b7f206b6d994642529ced969a04ab4120f332d2ed7236c45bd6308973f54a49437e70d14da224df1c2afc5b29fd2375d13c093ea50bb697c4d790fe5178dd6f1bbbbaf487174ef64cf776ca71d6fb00566b94e7921ddee9fd26749ec66a118579b'
+                    failureCount: null
+                    failCount: null
+                    successCount: null
+                    deleting: false
+                    status: RUNNING
+                    options:
+                      fieldToColumnMap:
+                        city: 7
+                        name: 0
+                        note: 22
+                        email: 3
+                        phone: 4
+                        state: 8
+                        company: 2
+                        quantity: 13
+                        mockupUrl: 16
+                        variantId: 14
+                        artworkUrl: 15
+                        postalCode: 9
+                        artworkUrl2: 17
+                        artworkUrl3: 19
+                        artworkUrl4: 21
+                        countryCode: 10
+                        description: 20
+                        referenceId: 11
+                        addressLine1: 5
+                        addressLine2: 6
+                        referenceId2: 12
+                        referenceId3: 12
+                        shippingService: 21
+                    createdAt: '2021-11-02T06:51:14.000000Z'
+                    updatedAt: '2021-11-02T06:54:45.000000Z'
+                    startedAt: '2021-11-02T06:54:45.000000Z'
+                    endedAt: null
+        '':
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      required: []
+                      properties: {}
+                  perPage:
+                    type: number
+                  total:
+                    type: number
+                  currentPage:
+                    type: number
+                  totalPages:
+                    type: number
+                required:
+                  - items
+                  - perPage
+                  - total
+                  - currentPage
+                  - totalPages
+                x-examples:
+                  example-1:
+                    items: []
+                    perPage: 15
+                    total: 0
+                    currentPage: 1
+                    totalPages: 1
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Bearer Token
+  '/accounts/{account}/orders/{order}/lineItems/ids':
+    parameters:
+      - schema:
+          type: string
+        name: account
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: order
+        in: path
+        required: true
+    get:
+      summary: Get lineitems by ids
+      operationId: get-accounts-account-orders-order-dataImports-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  id:
+                    type: string
+                    minLength: 1
+                  name:
+                    type: string
+                    minLength: 1
+                  file:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        minLength: 1
+                      url:
+                        type: string
+                        minLength: 1
+                    required:
+                      - id
+                      - url
+                  failureCount: {}
+                  failCount: {}
+                  successCount: {}
+                  deleting:
+                    type: boolean
+                  status:
+                    type: string
+                    minLength: 1
+                  options:
+                    type: object
+                    properties:
+                      fieldToColumnMap:
+                        type: object
+                        properties:
+                          city:
+                            type: number
+                          name:
+                            type: number
+                          note:
+                            type: number
+                          email:
+                            type: number
+                          phone:
+                            type: number
+                          state:
+                            type: number
+                          company:
+                            type: number
+                          quantity:
+                            type: number
+                          mockupUrl:
+                            type: number
+                          variantId:
+                            type: number
+                          artworkUrl:
+                            type: number
+                          postalCode:
+                            type: number
+                          artworkUrl2:
+                            type: number
+                          artworkUrl3:
+                            type: number
+                          artworkUrl4:
+                            type: number
+                          countryCode:
+                            type: number
+                          description:
+                            type: number
+                          referenceId:
+                            type: number
+                          addressLine1:
+                            type: number
+                          addressLine2:
+                            type: number
+                          referenceId2:
+                            type: number
+                          referenceId3:
+                            type: number
+                          shippingService:
+                            type: number
+                        required:
+                          - city
+                          - name
+                          - note
+                          - email
+                          - phone
+                          - state
+                          - company
+                          - quantity
+                          - mockupUrl
+                          - variantId
+                          - artworkUrl
+                          - postalCode
+                          - artworkUrl2
+                          - artworkUrl3
+                          - artworkUrl4
+                          - countryCode
+                          - description
+                          - referenceId
+                          - addressLine1
+                          - addressLine2
+                          - referenceId2
+                          - referenceId3
+                          - shippingService
+                    required:
+                      - fieldToColumnMap
+                  createdAt:
+                    type: string
+                    minLength: 1
+                  updatedAt:
+                    type: string
+                    minLength: 1
+                  startedAt:
+                    type: string
+                    minLength: 1
+                  endedAt: {}
+                required:
+                  - id
+                  - name
+                  - file
+                  - deleting
+                  - status
+                  - options
+                  - createdAt
+                  - updatedAt
+                  - startedAt
+                x-examples:
+                  example-1:
+                    id: 94c7459f-b257-401f-a76a-29539b39816e
+                    name: data-2-3rd-copy.xlsx
+                    file:
+                      id: 94c7427f-e973-484b-aef6-1dd60b557c10
+                      url: 'https://storage.googleapis.com/fulfill-pod/user-uploaded/cdYt7gav2pL07D3Gm9UDURQ2YdSaKKVFKW0Bl4Rh.xlsx?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=dev-sa%40clickfulfill.iam.gserviceaccount.com%2F20211102%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20211102T065947Z&X-Goog-Expires=3600&X-Goog-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22data-2-3rd-copy.xlsx%22&response-content-type=application%2Fvnd.openxmlformats-officedocument.spreadsheetml.sheet&X-Goog-Signature=8e3421d08c1e1ce2606c867477aa159a59a6285e193b6ab7e3dddc387d33f237025912b28c6c1e28ffa9a36173ae763e08c7baf82eaa9e194e885343ad6a2787888e2fcd3f94af241b486df005d974a583adf6f06111a96734c45aaa9cda424ca4df6f3eb4a4d49720fdb9a6d9a45687b8e4f388d0196562a21ead00f29b6845c0b603c9d7be2f34d47046690be3f01f2351453381bbf9cd75609b1ba84646b7f206b6d994642529ced969a04ab4120f332d2ed7236c45bd6308973f54a49437e70d14da224df1c2afc5b29fd2375d13c093ea50bb697c4d790fe5178dd6f1bbbbaf487174ef64cf776ca71d6fb00566b94e7921ddee9fd26749ec66a118579b'
+                    failureCount: null
+                    failCount: null
+                    successCount: null
+                    deleting: false
+                    status: RUNNING
+                    options:
+                      fieldToColumnMap:
+                        city: 7
+                        name: 0
+                        note: 22
+                        email: 3
+                        phone: 4
+                        state: 8
+                        company: 2
+                        quantity: 13
+                        mockupUrl: 16
+                        variantId: 14
+                        artworkUrl: 15
+                        postalCode: 9
+                        artworkUrl2: 17
+                        artworkUrl3: 19
+                        artworkUrl4: 21
+                        countryCode: 10
+                        description: 20
+                        referenceId: 11
+                        addressLine1: 5
+                        addressLine2: 6
+                        referenceId2: 12
+                        referenceId3: 12
+                        shippingService: 21
+                    createdAt: '2021-11-02T06:51:14.000000Z'
+                    updatedAt: '2021-11-02T06:54:45.000000Z'
+                    startedAt: '2021-11-02T06:54:45.000000Z'
+                    endedAt: null
+        '':
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      required: []
+                      properties: {}
+                  perPage:
+                    type: number
+                  total:
+                    type: number
+                  currentPage:
+                    type: number
+                  totalPages:
+                    type: number
+                required:
+                  - items
+                  - perPage
+                  - total
+                  - currentPage
+                  - totalPages
+                x-examples:
+                  example-1:
+                    items: []
+                    perPage: 15
+                    total: 0
+                    currentPage: 1
+                    totalPages: 1
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Bearer Token
+      description: ''
+  '/accounts/{account}/orders/{order}/cancelLineItems':
+    parameters:
+      - schema:
+          type: string
+        name: account
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: order
+        in: path
+        required: true
+    post:
+      summary: ''
+      operationId: post-accounts-account-orders-order-lineItems-ids---copy
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Bearer Token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                ids:
+                  type: array
+                  items:
+                    required: []
+                    properties: {}
+              required:
+                - ids
+              x-examples:
+                example-1:
+                  ids: []
+        description: ''
+  '/accounts/{account}/orders/{order}/updateLineItems':
+    parameters:
+      - schema:
+          type: string
+        name: account
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: order
+        in: path
+        required: true
+    post:
+      summary: ''
+      operationId: post-accounts-account-orders-order-lineItems-ids---copy
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Bearer Token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                ids:
+                  type: array
+                  items:
+                    required: []
+                    properties: {}
+              required:
+                - ids
+              x-examples:
+                example-1:
+                  ids: []
+  '/accounts/{account}/priceLists':
+    parameters:
+      - schema:
+          type: string
+        name: account
+        in: path
+        required: true
+    get:
+      summary: Get price list
+      operationId: get-accounts-account-orders-order-dataImports-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  items:
+                    type: array
+                    uniqueItems: true
+                    minItems: 1
+                    items:
+                      required:
+                        - id
+                        - account_id
+                        - name
+                        - created_at
+                        - updated_at
+                      properties:
+                        id:
+                          type: string
+                          minLength: 1
+                        account_id:
+                          type: string
+                          minLength: 1
+                        name:
+                          type: string
+                          minLength: 1
+                        created_at:
+                          type: string
+                          minLength: 1
+                        updated_at:
+                          type: string
+                          minLength: 1
+                  perPage:
+                    type: number
+                  total:
+                    type: number
+                  currentPage:
+                    type: number
+                  totalPages:
+                    type: number
+                required:
+                  - items
+                  - perPage
+                  - total
+                  - currentPage
+                  - totalPages
+                x-examples:
+                  example-1:
+                    items:
+                      - id: 94c74f52-e1af-4dab-b20d-88f1fe7a18b5
+                        account_id: 94c74d1e-4165-40b3-bdc3-8f8405873b78
+                        name: abc
+                        created_at: '2021-11-02T07:18:22.000000Z'
+                        updated_at: '2021-11-02T07:18:22.000000Z'
+                    perPage: 500
+                    total: 1
+                    currentPage: 1
+                    totalPages: 1
+        '':
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      required: []
+                      properties: {}
+                  perPage:
+                    type: number
+                  total:
+                    type: number
+                  currentPage:
+                    type: number
+                  totalPages:
+                    type: number
+                required:
+                  - items
+                  - perPage
+                  - total
+                  - currentPage
+                  - totalPages
+                x-examples:
+                  example-1:
+                    items: []
+                    perPage: 15
+                    total: 0
+                    currentPage: 1
+                    totalPages: 1
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Bearer Token
+      description: ''
+    post:
+      summary: ''
+      operationId: post-accounts-account-priceLists
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  name:
+                    type: string
+                    minLength: 1
+                  account_id:
+                    type: string
+                    minLength: 1
+                  id:
+                    type: string
+                    minLength: 1
+                  updated_at:
+                    type: string
+                    minLength: 1
+                  created_at:
+                    type: string
+                    minLength: 1
+                required:
+                  - name
+                  - account_id
+                  - id
+                  - updated_at
+                  - created_at
+                x-examples:
+                  example-1:
+                    name: abc
+                    account_id: 94c74d1e-4165-40b3-bdc3-8f8405873b78
+                    id: 94c74f52-e1af-4dab-b20d-88f1fe7a18b5
+                    updated_at: '2021-11-02T07:18:22.000000Z'
+                    created_at: '2021-11-02T07:18:22.000000Z'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer Token
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+              required:
+                - name
+              x-examples:
+                example-1:
+                  name: abc
+  '/accounts/{account}/priceLists/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: account
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    patch:
+      summary: ''
+      operationId: patch-accounts-account-priceLists-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  id:
+                    type: string
+                    minLength: 1
+                  account_id:
+                    type: string
+                    minLength: 1
+                  name:
+                    type: string
+                    minLength: 1
+                  created_at:
+                    type: string
+                    minLength: 1
+                  updated_at:
+                    type: string
+                    minLength: 1
+                required:
+                  - id
+                  - account_id
+                  - name
+                  - created_at
+                  - updated_at
+                x-examples:
+                  example-1:
+                    id: 94c74f52-e1af-4dab-b20d-88f1fe7a18b5
+                    account_id: 94c74d1e-4165-40b3-bdc3-8f8405873b78
+                    name: abc1
+                    created_at: '2021-11-02T07:18:22.000000Z'
+                    updated_at: '2021-11-02T07:20:55.000000Z'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer Token
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+              required:
+                - name
+              x-examples:
+                example-1:
+                  name: abc1
+    delete:
+      summary: ''
+      operationId: delete-accounts-account-priceLists-id
+      responses:
+        '204':
+          description: No Content
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer Token
+          required: true
+    get:
+      summary: ''
+      operationId: get-accounts-account-priceLists-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  name:
+                    type: string
+                    minLength: 1
+                  account_id:
+                    type: string
+                    minLength: 1
+                  id:
+                    type: string
+                    minLength: 1
+                  updated_at:
+                    type: string
+                    minLength: 1
+                  created_at:
+                    type: string
+                    minLength: 1
+                required:
+                  - name
+                  - account_id
+                  - id
+                  - updated_at
+                  - created_at
+                x-examples:
+                  example-1:
+                    name: abc
+                    account_id: 94c74d1e-4165-40b3-bdc3-8f8405873b78
+                    id: 94c74f52-e1af-4dab-b20d-88f1fe7a18b5
+                    updated_at: '2021-11-02T07:18:22.000000Z'
+                    created_at: '2021-11-02T07:18:22.000000Z'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          description: Bearer Token
+          required: true
+          name: Authorization
+  '/accounts/{account}/members':
+    parameters:
+      - schema:
+          type: string
+        name: account
+        in: path
+        required: true
+    get:
+      summary: Get members
+      operationId: get-accounts-account-orders-order-dataImports-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  items:
+                    type: array
+                    uniqueItems: true
+                    minItems: 1
+                    items:
+                      required:
+                        - id
+                        - account_id
+                        - name
+                        - created_at
+                        - updated_at
+                      properties:
+                        id:
+                          type: string
+                          minLength: 1
+                        account_id:
+                          type: string
+                          minLength: 1
+                        name:
+                          type: string
+                          minLength: 1
+                        created_at:
+                          type: string
+                          minLength: 1
+                        updated_at:
+                          type: string
+                          minLength: 1
+                  perPage:
+                    type: number
+                  total:
+                    type: number
+                  currentPage:
+                    type: number
+                  totalPages:
+                    type: number
+                required:
+                  - items
+                  - perPage
+                  - total
+                  - currentPage
+                  - totalPages
+                x-examples:
+                  example-1:
+                    items:
+                      - id: 94c74f52-e1af-4dab-b20d-88f1fe7a18b5
+                        account_id: 94c74d1e-4165-40b3-bdc3-8f8405873b78
+                        name: abc
+                        created_at: '2021-11-02T07:18:22.000000Z'
+                        updated_at: '2021-11-02T07:18:22.000000Z'
+                    perPage: 500
+                    total: 1
+                    currentPage: 1
+                    totalPages: 1
+        '':
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  items:
+                    type: array
+                    uniqueItems: true
+                    minItems: 1
+                    items:
+                      required:
+                        - id
+                        - email
+                        - name
+                        - role
+                        - createdAt
+                        - updatedAt
+                      properties:
+                        id:
+                          type: string
+                          minLength: 1
+                        email:
+                          type: string
+                          minLength: 1
+                        name:
+                          type: string
+                          minLength: 1
+                        role:
+                          type: string
+                          minLength: 1
+                        createdAt:
+                          type: string
+                          minLength: 1
+                        updatedAt:
+                          type: string
+                          minLength: 1
+                  perPage:
+                    type: number
+                  total:
+                    type: number
+                  currentPage:
+                    type: number
+                  totalPages:
+                    type: number
+                required:
+                  - items
+                  - perPage
+                  - total
+                  - currentPage
+                  - totalPages
+                x-examples:
+                  example-1:
+                    items:
+                      - id: 94c74d1e-410b-481f-a971-0d55ab749c17
+                        email: seller2@expressfulfill.com
+                        name: Mrs. Hailie Zieme
+                        role: OWNER
+                        createdAt: '2021-11-02T07:12:12.000000Z'
+                        updatedAt: '2021-11-02T07:12:12.000000Z'
+                    perPage: 15
+                    total: 1
+                    currentPage: 1
+                    totalPages: 1
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: Bearer Token
+      description: ''
+    post:
+      summary: ''
+      operationId: post-accounts-account-priceLists
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  id:
+                    type: string
+                    minLength: 1
+                  email:
+                    type: string
+                    minLength: 1
+                  name:
+                    type: string
+                    minLength: 1
+                  role:
+                    type: string
+                    minLength: 1
+                  createdAt:
+                    type: string
+                    minLength: 1
+                  updatedAt:
+                    type: string
+                    minLength: 1
+                required:
+                  - id
+                  - email
+                  - name
+                  - role
+                  - createdAt
+                  - updatedAt
+                x-examples:
+                  example-1:
+                    id: 94c751ee-aa04-43eb-8702-6b19b9159527
+                    email: seller11@expressfulfill.com
+                    name: seller11@expressfulfill.com
+                    role: ADMIN
+                    createdAt: '2021-11-02T07:25:39.000000Z'
+                    updatedAt: '2021-11-02T07:25:39.000000Z'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer Token
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                email:
+                  type: string
+                  minLength: 1
+                name:
+                  type: string
+                  minLength: 1
+                role:
+                  type: string
+                  minLength: 1
+              required:
+                - email
+                - name
+                - role
+              x-examples:
+                example-1:
+                  email: seller11@expressfulfill.com
+                  name: abc@
+                  role: ADMIN
+  '/accounts/{account}/members/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: account
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    patch:
+      summary: ''
+      operationId: patch-accounts-account-priceLists-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  id:
+                    type: string
+                    minLength: 1
+                  email:
+                    type: string
+                    minLength: 1
+                  name:
+                    type: string
+                    minLength: 1
+                  role:
+                    type: string
+                    minLength: 1
+                  createdAt:
+                    type: string
+                    minLength: 1
+                  updatedAt:
+                    type: string
+                    minLength: 1
+                required:
+                  - id
+                  - email
+                  - name
+                  - role
+                  - createdAt
+                  - updatedAt
+                x-examples:
+                  example-1:
+                    id: 94c751ee-aa04-43eb-8702-6b19b9159527
+                    email: seller11@expressfulfill.com
+                    name: seller11@expressfulfill.com
+                    role: ADMIN
+                    createdAt: '2021-11-02T07:25:39.000000Z'
+                    updatedAt: '2021-11-02T07:25:39.000000Z'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer Token
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                role:
+                  type: string
+                  minLength: 1
+              required:
+                - role
+              x-examples:
+                example-1:
+                  role: MEMBER
+    delete:
+      summary: ''
+      operationId: delete-accounts-account-priceLists-id
+      responses:
+        '204':
+          description: No Content
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer Token
+          required: true
+    get:
+      summary: ''
+      operationId: get-accounts-account-priceLists-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  id:
+                    type: string
+                    minLength: 1
+                  email:
+                    type: string
+                    minLength: 1
+                  name:
+                    type: string
+                    minLength: 1
+                  role:
+                    type: string
+                    minLength: 1
+                  createdAt:
+                    type: string
+                    minLength: 1
+                  updatedAt:
+                    type: string
+                    minLength: 1
+                required:
+                  - id
+                  - email
+                  - name
+                  - role
+                  - createdAt
+                  - updatedAt
+                x-examples:
+                  example-1:
+                    id: 94c751ee-aa04-43eb-8702-6b19b9159527
+                    email: seller11@expressfulfill.com
+                    name: seller11@expressfulfill.com
+                    role: ADMIN
+                    createdAt: '2021-11-02T07:25:39.000000Z'
+                    updatedAt: '2021-11-02T07:25:39.000000Z'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          description: Bearer Token
+          required: true
+          name: Authorization
+  '/accounts/{account}/files':
+    parameters:
+      - schema:
+          type: string
+        name: account
+        in: path
+        required: true
+    post:
+      summary: ''
+      operationId: post-accounts-account-files
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  id:
+                    type: string
+                    minLength: 1
+                  url:
+                    type: string
+                    minLength: 1
+                required:
+                  - id
+                  - url
+                x-examples:
+                  example-1:
+                    id: 94c7427f-e973-484b-aef6-1dd60b557c10
+                    url: 'https://storage.googleapis.com/fulfill-pod/user-uploaded/cdYt7gav2pL07D3Gm9UDURQ2YdSaKKVFKW0Bl4Rh.xlsx?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=dev-sa%40clickfulfill.iam.gserviceaccount.com%2F20211102%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20211102T064230Z&X-Goog-Expires=3600&X-Goog-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22data-2-3rd-copy.xlsx%22&response-content-type=application%2Fvnd.openxmlformats-officedocument.spreadsheetml.sheet&X-Goog-Signature=91c7cdb73a827c1ea6224a8bf31b57c64273bf3af4e3b761bdea5ee8ae3685323fe05e8a96a1f140f5007a3a86d6110845ba88365df1fa8f4b89c2f0226d0319dcfb0d776590b971ff804df67e32cf32915ef92ee59aca02acbe5babdfb51b62c5aa0a21aee736e14b45518c3681f55cf8f8bbf4033132c22ed9622f632073a2ce4725b964da9d38a1ae33d7e6cffbd05850ef88f21e4e7bc543f34a745e4dc2f6cf040b65524eaccf638abce175cf00365148b31c88233678a8db9acecd0f2356064908f6abd1a563037003ff35ee5c8626a40cf1dd0e04a0e928b77fd49476b7d09e50428abd2c534c016425871d99db6c869636698f2d47d1748ffd5e2957'
+              examples:
+                example-1:
+                  value:
+                    id: 94c7427f-e973-484b-aef6-1dd60b557c10
+                    url: 'https://storage.googleapis.com/fulfill-pod/user-uploaded/cdYt7gav2pL07D3Gm9UDURQ2YdSaKKVFKW0Bl4Rh.xlsx?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=dev-sa%40clickfulfill.iam.gserviceaccount.com%2F20211102%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20211102T064230Z&X-Goog-Expires=3600&X-Goog-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22data-2-3rd-copy.xlsx%22&response-content-type=application%2Fvnd.openxmlformats-officedocument.spreadsheetml.sheet&X-Goog-Signature=91c7cdb73a827c1ea6224a8bf31b57c64273bf3af4e3b761bdea5ee8ae3685323fe05e8a96a1f140f5007a3a86d6110845ba88365df1fa8f4b89c2f0226d0319dcfb0d776590b971ff804df67e32cf32915ef92ee59aca02acbe5babdfb51b62c5aa0a21aee736e14b45518c3681f55cf8f8bbf4033132c22ed9622f632073a2ce4725b964da9d38a1ae33d7e6cffbd05850ef88f21e4e7bc543f34a745e4dc2f6cf040b65524eaccf638abce175cf00365148b31c88233678a8db9acecd0f2356064908f6abd1a563037003ff35ee5c8626a40cf1dd0e04a0e928b77fd49476b7d09e50428abd2c534c016425871d99db6c869636698f2d47d1748ffd5e2957'
+      description: Create file import
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer Token
+          required: true
+  '/accounts/{account}/files/{file}':
+    parameters:
+      - schema:
+          type: string
+        name: account
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: file
+        in: path
+        required: true
+    get:
+      summary: ''
+      operationId: get-accounts-account-files-file
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  id:
+                    type: string
+                    minLength: 1
+                  url:
+                    type: string
+                    minLength: 1
+                required:
+                  - id
+                  - url
+                x-examples:
+                  example-1:
+                    id: 94c7427f-e973-484b-aef6-1dd60b557c10
+                    url: 'https://storage.googleapis.com/fulfill-pod/user-uploaded/cdYt7gav2pL07D3Gm9UDURQ2YdSaKKVFKW0Bl4Rh.xlsx?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=dev-sa%40clickfulfill.iam.gserviceaccount.com%2F20211102%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20211102T064911Z&X-Goog-Expires=3600&X-Goog-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22data-2-3rd-copy.xlsx%22&response-content-type=application%2Fvnd.openxmlformats-officedocument.spreadsheetml.sheet&X-Goog-Signature=c14b6184285474c431669cce5ac6536fac141adb7f384096a8df447aa38d540aeeffffe04d5cbf5b61e4fa43b2a02f7fe530678f4ca83ebd486767d870bd861ec97bd397fcf37a600e9d15f541b7e096f58480f9748ac0bc5ffe88b5b7f511291020132cce4c2d9143a30c4e16da1f831e0fcd5a588e7f22c083f486100724abddf7cd4a3fb6beb51f0e96e9e4fc3fc03ba6f95a01f6f03636270c9c6c8a406a3df18c67e0c3dc146f776e327f257aa1429d1d27b97dbec7e6578db8c47edd4c2115569712aa7cfde0a0dae762c6275e5342748d88da06bedd30d06915c075c10fce23620146026dfe91a5f3057a87f62ad8eddabce70de754fb30af97fffda1'
+        '404':
+          description: Not Found
+      description: Get file
   /countries:
     get:
       summary: Get List Countries
